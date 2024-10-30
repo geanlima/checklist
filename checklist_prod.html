@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist de Processos Implantados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .checklist-item p {
+            width: 40%;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .checklist-item label {
+            margin-right: 15px;
+        }
+
+        .signature {
+            margin-top: 30px;
+        }
+
+        .signature canvas {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            height: 150px;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Checklist de Processos Implantados Produtos</h1>
+    </header>
+
+    <div class="container">
+        <h2>Checklist de Processos Produtos</h2>
+
+        <div class="checklist">
+            <!-- Gerando dinamicamente todas as perguntas -->
+            ${generateChecklistItems()}
+        </div>
+
+        <div class="button-group">
+            <button onclick="marcarTodas('sim')">Marcar Todas Sim</button>
+            <button onclick="marcarTodas('nao')">Marcar Todas Não</button>
+            <button onclick="marcarTodas('naoSeAplica')">Marcar Todas Não se Aplica</button>
+        </div>
+
+        <div class="signature">
+            <h3>Assinatura</h3>
+            <canvas id="signatureCanvas"></canvas>
+        </div>
+
+        <div class="button-group">
+            <button onclick="validarEImprimir()">Impressão Módulo Produtos</button>
+            <br>
+            <a href="./checklist1.html">Voltar para o MENU</a>
+        </div>
+    </div>
+
+    <script>
+        const checklistItems = [
+ "Cadastro de Pessoa", 
+"Cadastro de Produtos",
+"Cadastro de NF de Entrada de Peças  (*)", 
+"Cadastro de NF de Entrada de Frete de Peças (* )", 
+"Cadastro de NF de Entrada de Devolução de Venda (* )", 
+"Cadastro de NF de Entrada Outras (* )", 
+"Cadastro de NF de Saída Simples Remessa Peças (* )", 
+"Cadastro de NF de Saída Simples Remessa Outros (* )", 
+"Cadastro de NF de Saída Devolução de Compras (* )", 
+"Nota Fiscal de Transferência Entre Filiais / Coligadas (* )", 
+"Cancelar NF",
+"Requisição de Compra",
+"Fazer Pedido de Peças Através da Sugestão",
+"Fazer Pedido de Peças com Requisição de Compras",
+"Movimentação de Entradas e Saídas",
+"Manutenção de Vendas Perdidas",
+"Manutenção de Localização",
+"Manutenção de Preços dos Produtos",
+"Markup de Produtos",
+"Cadastro de Classificação ABC",
+"Inventário",
+"Consultar Estoque",
+"Consultar Peças em Trânsito",
+"Cancelar Requisição de Materiais",
+"Mudança de Referência",
+"Cadastro de Promoções",
+"Cadastro de Descontos",
+"Cadastro de Objetivos",
+"Exportação de Arquivos Montadora",
+"Importação de Arquivos Montadora",
+"Cadastrar Pedido de Venda",
+"Gerar / Imprimir Orçamento (* )", 
+"Emitir / Reemitir Lista de Separação (* )", 
+"Emitir Nota Fiscal de Venda Balcão (* )", 
+"Emitir Nota Fiscal de Devolução de Venda Balcão (* )", 
+"Emitir Cupom Fiscal (* )", 
+"Cancelar Nota Fiscal de Venda Balcão",
+"Cancelar Cupom Fiscal de Venda Balcão",
+"Emitir Boleto de Cobrança (* )", 
+"Informar Vendas Perdidas",
+"Requisição de Compra Automática",
+"Emitir nota fiscal baseada em Cupom (* )", 
+"Indicadores",
+"Integração com a Fábrica - Importações",
+"Integração com a Fábrica - Exportações",
+"Relatórios",
+"FLUXO - Nota Fiscal de Entrada - Autorizar NF",
+"FLUXO - Nota Fiscal de Entrada - Informar Data Entrada",
+"FLUXO - Nota Fiscal de Entrada - Recebimento",
+"FLUXO - Nota Fiscal de Entrada - Conferencia de Cadastro Produto",
+"FLUXO - Nota Fiscal de Entrada - Autorizar NF Chassi",
+"FLUXO - Nota Fiscal de Entrada - Autorizar Fiscal",
+"FLUXO - Nota Fiscal de Entrada - Importar XML",
+"FLUXO - Pedido de Compra - Autorizar",
+"FLUXO - Pedido de Compra - Autorizar Orçamento",
+"FLUXO - Pedido de Compra - Prorrogar prazo de entrega",
+"FLUXO - Requisição de Compra - Autoriza",
+"FLUXO - Requisição de Compra - Cancela",
+"FLUXO - Requisição de Compra - Dar Ciência",
+"FLUXO - Requisição de Compra - Verificar Entrega",
+"FLUXO - Requisição de Compra - Desvincular",
+"FLUXO - Lista Separação - Receber Produto",
+"FLUXO - Lista Separação - Entregar produto",
+"FLUXO - Sugestão de Compra - Dar Ciência",
+"FLUXO - Autorizar Pedido Venda Produto - Autorizar",
+"FLUXO - Autorizar Pedido Venda Produto - Autorizar financeiro",
+"FLUXO - Recebimento de Requisição de Compra - Dar ciência",
+"FLUXO - Recebimento de Requisição de Compra - Comunicar Cliente",
+"FLUXO - Autorização de Movimento de Estoque Avulso - Autorizar",
+"FLUXO - Autorização de Movimento de Estoque Avulso - Dar Ciência",
+"FLUXO - Cálculo ABC de Popularidade - Dar Ciência",
+"FLUXO - Produto com Estoque Zerado - Analisar",
+"FLUXO - Análise Venda Perdida - Analisar venda perdido",
+"FLUXO - Inventário - Autorizar",
+"FLUXO - Inventário - Finalizar Inventário"
+            // ... (seus itens do checklist)
+        ];
+
+        function generateChecklistItems() {
+            return checklistItems.map(item => `
+                <div class="checklist-item">
+                    <p>${item}</p>
+                    <label><input type="radio" name="${item}" value="sim"> Sim</label>
+                    <label><input type="radio" name="${item}" value="nao"> Não</label>
+                    <label><input type="radio" name="${item}" value="naoSeAplica"> Não se aplica</label>
+                    <input type="text" class="observacao" name="observacaoImpressaoOS" placeholder="Observação">
+                </div>
+            `).join('');
+        }
+
+        function marcarTodas(valor) {
+            checklistItems.forEach(item => {
+                const radios = document.getElementsByName(item);
+                radios.forEach(radio => {
+                    if (radio.value === valor) {
+                        radio.checked = true;
+                    } else {
+                        radio.checked = false;
+                    }
+                });
+            });
+        }
+
+        function validarEImprimir() {
+            const allAnswered = checklistItems.every(item => {
+                const radios = document.getElementsByName(item);
+                return Array.from(radios).some(radio => radio.checked);
+            });
+
+            if (allAnswered) {
+                window.print();
+            } else {
+                alert('Por favor, responda todas as perguntas antes de imprimir.');
+            }
+        }
+
+        document.querySelector('.checklist').innerHTML = generateChecklistItems();
+    </script>
+</body>
+</html>

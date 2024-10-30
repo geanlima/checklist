@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist de Processos Implantados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 150px;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .button-group input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-group input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="https://dealernet.com.br/wp-content/uploads/2020/12/dealernet_.svg" alt="Logo Dealernet" class="logo">
+        <h1>Checklist de Processos Implantados</h1>
+    </header>
+
+    <div class="container">
+        <hr>
+
+        <div class="button-group">
+            <input type="submit" value="MÓDULO OFICINA" onclick="window.location.href='./checklist_ofc.html';">
+            <input type="submit" value="MÓDULO PEÇAS" onclick="window.location.href='./checklist_prod.html';">
+            <input type="submit" value="MÓDULO VEÍCULOS NOVOS" onclick="window.location.href='./checklist_vecvn.html';">
+            <input type="submit" value="MÓDULO VEÍCULOS SEMI-NOVOS" onclick="window.location.href='./checklist_vecvu.html';">
+            <input type="submit" value="MÓDULO TESOURARIA" onclick="window.location.href='./checklist_tes.html';">
+        </div>
+
+        <a href="./checklist.html">Voltar para o Login</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist de Processos Implantados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .checklist-item p {
+            width: 40%;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .checklist-item label {
+            margin-right: 15px;
+        }
+
+        .signature {
+            margin-top: 30px;
+        }
+
+        .signature canvas {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            height: 150px;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Checklist de Processos Implantados Oficina</h1>
+    </header>
+
+    <div class="container">
+        <h2>Checklist de Processos Oficina</h2>
+
+        <div class="checklist">
+            <!-- Gerando dinamicamente todas as perguntas -->
+            ${generateChecklistItems()}
+        </div>
+
+        <div class="button-group">
+            <button onclick="marcarTodas('sim')">Marcar Todas Sim</button>
+            <button onclick="marcarTodas('nao')">Marcar Todas Não</button>
+            <button onclick="marcarTodas('naoSeAplica')">Marcar Todas Não se Aplica</button>
+        </div>
+
+        <div class="signature">
+            <h3>Assinatura</h3>
+            <canvas id="signatureCanvas"></canvas>
+        </div>
+
+        <div class="button-group">
+            <button onclick="validarEImprimir()">Impressão Módulo Oficina</button>
+            <br>
+            <a href="./checklist1.html">Voltar para o MENU</a>
+        </div>
+    </div>
+
+    <script>
+        const checklistItems = [
+ "Cadastro de Pessoa",
+            "Cadastro de Veículos",
+            "Atendimento da Portaria",
+            "Controle da Portaria",
+            "Abertura de O.S.",
+            "Abertura de O.S. Seguradora – Orçamento",
+            "Cadastro de Serviços na O.S.",
+            "Inclusão de Serviços de Terceiros",
+            "Impressão de O.S.",
+            "Autorização de Execução de Serviços",
+            "Cancelamento de O.S.",
+            "Cadastro e emissão de Orçamento",
+            "Emissão de Pré-Nota de O.S.",
+            "Encerrar O.S.",
+            "Emissão de Nota Fiscal de O.S.",
+            "Emissão de Nota Fiscal de O.S. - Com Franquia",
+            "Emitir Boleto de Cobrança",
+            "Cancelamento de Nota Fiscal de O.S.",
+            "Marcação de Tempo",
+            "Requisição de Peças",
+            "Impressão da Requisição de Peças",
+            "Autorizar requisição de compra",
+            "Transferência de Tipo de OS",
+            "NTI",
+            "Cadastro e Consulta Agendamento",
+            "Cadastro de Kits",
+            "Cadastro e Abertura de RAC",
+            "Cadastro de Campanha",
+            "Cadastro de TMO",
+            "Cadastro da política de desconto de peças e serviços da Oficina",
+            "Pesquisa de Pós Vendas",
+            "Consultar Ficha de Seguimento",
+            "Importação de Arquivos Montadora",
+            "Exportação de Arquivos Montadora",
+            "Emissão da Etiqueta de Peças Garantia",
+            "Emissão da NF de Transporte (Simples Remessa)",
+            "Emissão de Nota Fiscal de O.S. de Garantia",
+            "Cadastro de Tipos de O.S.",
+            "Cadastro de % de Desconto de Serviços Seguradora",
+            "Indicadores",
+            "Integração com a Fábrica - Importações",
+            "Integração com a Fábrica - Exportações",
+            "Relatórios",
+            "FLUXO - Acompanhamento do Tempo de Execução da O.S.",
+            "FLUXO - Abertura de OS para Veículo - campanha",
+            "FLUXO - Serviço de Garantia",
+            "FLUXO - Portaria > Autorizar Saída",
+            "FLUXO - Portaria > Cadastrar Veículo",
+            "FLUXO - Portaria > Abrir OS",
+            "FLUXO - Portaria > Justificar Atraso",
+            "FLUXO - Autorização Encerramento do Tipo OS > Autorizar encerramento",
+            "FLUXO - Autorização Encerramento do Tipo OS > Emitir nota fiscal",
+            "FLUXO - Desvincular Notas Fiscais da O.S.",
+            "FLUXO - Agendamento da Oficina > Confirmar",
+            "FLUXO - Agendamento da Oficina > Resgatar",
+            "FLUXO - Autorização de Transferência de Requisição",
+            "FLUXO - Ordem de Serviço > Confirmar Entrega",
+            "FLUXO - Autorização Desconto da OS",
+            "FLUXO - Solicita Impressão Via Requisição",
+            "FLUXO - Requisição da Oficina > Entregar Produto",
+            "FLUXO - Orçamento da Oficina > Follow Up",
+            "FLUXO - Autorização Transferência do Tipo de OS"
+        ];
+
+        function generateChecklistItems() {
+            return checklistItems.map(item => `
+                <div class="checklist-item">
+                    <p>${item}</p>
+                    <label><input type="radio" name="${item}" value="sim"> Sim</label>
+                    <label><input type="radio" name="${item}" value="nao"> Não</label>
+                    <label><input type="radio" name="${item}" value="naoSeAplica"> Não se aplica</label>
+                    <input type="text" class="observacao" name="observacaoImpressaoOS" placeholder="Observação">
+                </div>
+            `).join('');
+        }
+
+        function marcarTodas(valor) {
+            checklistItems.forEach(item => {
+                const radios = document.getElementsByName(item);
+                radios.forEach(radio => {
+                    if (radio.value === valor) {
+                        radio.checked = true;
+                    } else {
+                        radio.checked = false;
+                    }
+                });
+            });
+        }
+
+        function validarEImprimir() {
+            const allAnswered = checklistItems.every(item => {
+                const radios = document.getElementsByName(item);
+                return Array.from(radios).some(radio => radio.checked);
+            });
+
+            if (allAnswered) {
+                window.print();
+            } else {
+                alert('Por favor, responda todas as perguntas antes de imprimir.');
+            }
+        }
+
+        document.querySelector('.checklist').innerHTML = generateChecklistItems();
+    </script>
+</body>
+</html>
